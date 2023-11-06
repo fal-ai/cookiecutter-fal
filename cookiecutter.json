@@ -1,0 +1,75 @@
+{
+    "project_name": "Stable Diffusion",
+    "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
+    "generate_function_name": "generate_image",
+    "machine_type": [
+        "XS", "S", "M", "L", "XL", "GPU", "GPU-10G", "GPU-T4", "GPU-L4"
+    ],
+    "keep_alive": 60,
+    "input_fields": "",
+    "output_fields": "",
+    "_fields": {
+        "prompt": {
+            "type": "str",
+            "args": {
+                "default": "'an astronaut in the jungle, cold color palette with butterflies in the background, highly detailed, 8k'",
+                "description": "'The prompt to use for generating the image. Be as descriptive as possible for best results.'"
+            }
+        },
+        "negative_prompt": {
+            "type": "str",
+            "args": {
+                "default": "''",
+                "examples": [
+                    "'cartoon, painting, illustration, (worst quality, low quality, normal quality:2)'",
+                    "'nsfw, cartoon, (epicnegative:0.9)'"
+                ],
+                "description": "\"The negative prompt to use. Use it to address details that you don't want in the image. This could be colors, objects, scenery and even the small details (e.g. moustache, blurry, low resolution).\""
+            }
+        },
+        "image_size": {
+            "type": "Optional[ImageSizeInput]",
+            "args": {
+                "default": "'square_hd'",
+                "description": "'The size of the generated image. You can choose between some presets or custom height and width that **must be multiples of 8.'"
+            }
+        },
+        "num_inference_steps": {
+            "type": "int",
+            "args": {
+                "default": 30,
+                "ge": 10,
+                "le": 50,
+                "title": "'Number of inference steps'",
+                "description": "'Increasing the amount of steps tells Stable Diffusion that it should take more steps to generate your final result which can increase the amount of detail in your image.'"
+            }
+        },
+        "guidance_scale": {
+            "type": "int",
+            "args": {
+                "default": 7.5,
+                "ge": 0.0,
+                "le": 20.0,
+                "title": "'Classifier-Free Guidance scale (CFG)'",
+                "description": "'The CFG (Classifier Free Guidance) scale is a measure of how close you want the model to stick to your prompt when looking for a related image to show you.'"
+            }
+        },
+        "seed": {
+            "type": "Optional[int]",
+            "args": {
+                "default": "None",
+                "examples": [42],
+                "description": "'The same seed and the same prompt given to the same version of Stable Diffusion will output the same image every time.'"
+
+            }
+        },
+        "image": {
+            "type": "Image",
+            "args": {
+                "default": "'https://storage.googleapis.com/falserverless/illusion-examples/pattern.png'",
+                "examples": ["'https://storage.googleapis.com/falserverless/illusion-examples/checkers.png'", "'https://storage.googleapis.com/falserverless/illusion-examples/cubes.jpeg'"],
+                "description": "'The generated image files info.'"
+            }
+        }
+    }
+}
