@@ -1,44 +1,49 @@
-from {{ cookiecutter.project_slug }}.env import get_requirements
+from {{ cookiecutter.project_slug }}.env import get_requirements, setup_environment
 from {{ cookiecutter.project_slug }}.model import get_pipeline
 
 from fal import function
 from pydantic import BaseModel, Field
 
-{% if 'image_size' in cookiecutter.input_fields.split(' ') or 'image_size' in cookiecutter.output_fields.split(' ') 
-    or 'seed' in cookiecutter.input_fields.split(' ') or 'seed' in cookiecutter.output_fields.split(' ') 
+{% set input_fields = cookiecutter.__input_fields | todict %}
+{% set output_fields = cookiecutter.__output_fields | todict %}
+{% set modal_name = cookiecutter.project_name | title | replace(' ', '') %}
+
+
+{% if 'Image Size' in input_fields or 'Image Size' in output_fields
+    or 'seed' in input_fields or 'seed' in output_fields
 %}
 from typing import Optional
 {% endif %}
 
-{% if 'image' in cookiecutter.input_fields.split(' ') or 'image' in cookiecutter.output_fields.split(' ') %}
-from fal.toolkit import Image
+{% if 'Image' in input_fields or 'Image' in output_fields %}
+from fal.toolkit import Image, ImageSizeInput, get_image_size
 {% endif %}
 
-class {{ cookiecutter.project_name | title | replace(' ', '') }}Input(BaseModel):
-{%- if cookiecutter.input_fields|trim|length == 0 %}
+class {{ modal_name }}Input(BaseModel):
+{%- if not input_fields %}
     pass
 {%- else %}
-{%- for field in cookiecutter.input_fields.split(' ') %}
-    {% if field in cookiecutter._fields -%}
-        {{ field }}: {{ cookiecutter._fields[field].type }} = Field(
-        {% for arg in cookiecutter._fields[field].args -%}
-            {{ arg }}={{cookiecutter._fields[field].args[arg]}},
-        {% endfor %}
+{%- for field in input_fields %}
+    {% set field_value = input_fields[field] %}
+    {{ field_value.varname }}: {{ field_value.input.type }} = Field(
+    {% for arg in field_value.input -%}
+        {{ arg }}={{field_value.input[arg]}},
+    {% endfor %}
     )
-    {%- endif -%}
 {% endfor %}
 {% endif %}
 
-class {{ cookiecutter.project_name | title | replace(' ', '') }}Output(BaseModel):
-{%- if cookiecutter.output_fields|trim|length == 0 %}
+class {{ modal_name }}Output(BaseModel):
+{%- if not output_fields %}
     pass
 {%- else %}
-{%- for field in cookiecutter.output_fields.split(' ') %}
-    {% if field in cookiecutter._fields -%}
-        {{ field }}: {{ cookiecutter._fields[field].type }} = Field(
-        {{ "description" }}={{cookiecutter._fields[field].args["description"]}},
+{%- for field in output_fields %}
+    {% set field_value = output_fields[field] %}
+    {{ field_value.varname }}: {{ field_value.output.type }} = Field(
+    {% for arg in field_value.output -%}
+        {{ arg }}={{field_value.output[arg]}},
+    {% endfor %}
     )
-    {%- endif -%}
 {% endfor %}
 {%- endif %}
 
@@ -46,13 +51,16 @@ class {{ cookiecutter.project_name | title | replace(' ', '') }}Output(BaseModel
 
 @function(
     requirements=get_requirements(),
-    machine_type="{{ cookiecutter.machine_type }}",
+    machine_type="{{ cookiecutter.__machine_type }}",
     keep_alive={{ cookiecutter.keep_alive }},
     serve=True,
     python_version="3.10",
 )
-def {{ cookiecutter.generate_function_name }}(input: {{ cookiecutter.project_name | title | replace(' ', '') }}Input) -> {{ cookiecutter.project_name | title | replace(' ', '') }}Output:
-{%- if 'image_size' in cookiecutter.input_fields.split(' ') %}
+def {{ cookiecutter.generate_function_name }}(input: {{ modal_name }}Input) -> {{ modal_name }}Output:
+    setup_environment()
+
+
+{%- if 'Image Size' in input_fields %}
     if input.image_size is not None:
         width = input.image_size.width
         height = input.image_size.height
@@ -62,18 +70,15 @@ def {{ cookiecutter.generate_function_name }}(input: {{ cookiecutter.project_nam
 
     # Generate images
 
-    return {{ cookiecutter.project_name | title | replace(' ', '') }}Output()
+    return {{ modal_name }}Output()
 
 
 
 
 if __name__ == "__main__":
-    model_input = {{ cookiecutter.project_name | title | replace(' ', '') }}Input(
-    {%- for field in cookiecutter.input_fields.split(' ') %}
-        {% if field in cookiecutter._fields -%}
-            {{ field }}={{ cookiecutter._fields[field].args["default"] }},
-        {%- endif -%}
-        {% endfor %}
+    model_input = {{ modal_name }}Input(
+    {%- for field in input_fields %}
+    {% endfor %}
     )
     local = {{ cookiecutter.generate_function_name }}.on(serve=False)
     output = local(model_input)
