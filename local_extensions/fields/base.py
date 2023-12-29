@@ -19,6 +19,7 @@ class FieldOptions:
     def get_default(self) -> T | None:
         if self.type == "str":
             return repr(self.default)
+        return self.default
 
     def to_dict(self) -> dict[str, Any]:
         field_dict = {
@@ -30,8 +31,8 @@ class FieldOptions:
         for extra in extras:
             if getattr(self, extra) is not None:
                 field_dict[extra] = getattr(self, extra)
-        
-        if self.default is not None:
+
+        if (self.default is None and "Optional" in self.type) or self.default is not None:
             field_dict["default"] = self.get_default()
 
         return field_dict

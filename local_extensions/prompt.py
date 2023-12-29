@@ -5,12 +5,13 @@ from cookiecutter.utils import simple_filter
 
 
 @simple_filter
-def select_multiple_field(options: str):
+def select_multiple_field(args: list[str]):
+    message, options = args
     choices = json.loads(options)
     choice = inquirer.checkbox(
         message=(
-            "Select which fields you want to use (Use Arrow keys to Select/Deselect "
-            "and Enter key to confirm selections)"
+            f"{message} (Use Arrow keys to Select/Deselect and Enter key to "
+            "confirm selections)"
         ),
         choices=choices,
     )
@@ -32,9 +33,10 @@ def select_multiple(options: str):
 
 
 @simple_filter
-def select_one(options: list):
+def select_one(args: list[str | list[str]]):
+    message, options = args
     choice = inquirer.list_input(
-        message="Select which field you want to use",
+        message=message,
         choices=options,
         default=options[0],
     )

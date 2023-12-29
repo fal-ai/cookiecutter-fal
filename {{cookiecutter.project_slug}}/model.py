@@ -6,8 +6,8 @@ used in the project.
 Contents:
 - Definition of machine learning models and related utilities.
 """
-from fal import cached
+import fal
 
-@cached
+@fal.cached
 def get_pipeline():
     pass

@@ -1,7 +1,7 @@
 from {{ cookiecutter.project_slug }}.env import get_requirements, setup_environment
 from {{ cookiecutter.project_slug }}.model import get_pipeline
 
-from fal import function
+import fal
 from pydantic import BaseModel, Field
 
 {% set input_fields = cookiecutter.__input_fields | todict %}
@@ -23,33 +23,33 @@ class {{ modal_name }}Input(BaseModel):
 {%- if not input_fields %}
     pass
 {%- else %}
-{%- for field in input_fields %}
+{%- for field in input_fields -%}
     {% set field_value = input_fields[field] %}
     {{ field_value.varname }}: {{ field_value.input.type }} = Field(
     {% for arg in field_value.input -%}
         {{ arg }}={{field_value.input[arg]}},
     {% endfor %}
     )
-{% endfor %}
+{%- endfor %}
 {% endif %}
 
 class {{ modal_name }}Output(BaseModel):
 {%- if not output_fields %}
     pass
 {%- else %}
-{%- for field in output_fields %}
+{%- for field in output_fields -%}
     {% set field_value = output_fields[field] %}
     {{ field_value.varname }}: {{ field_value.output.type }} = Field(
     {% for arg in field_value.output -%}
         {{ arg }}={{field_value.output[arg]}},
     {% endfor %}
     )
-{% endfor %}
+{%- endfor %}
 {%- endif %}
 
 
 
-@function(
+@fal.function(
     requirements=get_requirements(),
     machine_type="{{ cookiecutter.__machine_type }}",
     keep_alive={{ cookiecutter.keep_alive }},
@@ -57,14 +57,15 @@ class {{ modal_name }}Output(BaseModel):
     python_version="3.10",
 )
 def {{ cookiecutter.generate_function_name }}(input: {{ modal_name }}Input) -> {{ modal_name }}Output:
-    setup_environment()
-
-
 {%- if 'Image Size' in input_fields %}
     if input.image_size is not None:
         width = input.image_size.width
         height = input.image_size.height
 {% endif %}
+
+    setup_environment()
+
+
 
     pipe = get_pipeline()
 
