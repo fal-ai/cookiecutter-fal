@@ -5,11 +5,11 @@
     "_machine_type": [
         "XS", "S", "M", "L", "XL", "GPU", "GPU-A10G", "GPU-T4", "GPU-L4"
     ],
-    "__machine_type": "{{ cookiecutter._machine_type | select_one }}",
+    "__machine_type": "{{ ['Machine Type', cookiecutter._machine_type] | select_one }}",
     "keep_alive": 60,
     "__fields": "{{ ' ' | load_fields }}",
-    "__input_fields": "{{ cookiecutter.__fields | select_multiple_field }}",
-    "__output_fields": "{{ cookiecutter.__fields | select_multiple_field }}",
+    "__input_fields": "{{ ['Input Fields', cookiecutter.__fields] | select_multiple_field }}",
+    "__output_fields": "{{ ['Output Fields', cookiecutter.__fields] | select_multiple_field }}",
     "_extensions": [
         "local_extensions.select_multiple_field",
         "local_extensions.select_one",
