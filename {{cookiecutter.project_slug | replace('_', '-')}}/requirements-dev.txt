@@ -1,0 +1,4 @@
+httpx
+image-similarity-measures[speedups]
+pyfftw
+pytest
