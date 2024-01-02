@@ -1,12 +1,19 @@
 import configparser
+from pathlib import Path
 import subprocess
+
+__FILE_DIR = Path(__file__).resolve().parent
+# We assume that the config file is in the same directory as this script.
+FAL_CONFIG_PATH = __FILE_DIR / "fal.ini"
 
 
 def is_subsection(section: str):
     return section.startswith("[") and section.endswith("]")
 
+
 def get_subsection_name(section: str):
     return section[1:-1]
+
 
 def validate_subsection(config: configparser.ConfigParser, section: str):
     if not is_subsection(section):
@@ -31,12 +38,13 @@ def validate_section(config: configparser.ConfigParser, section: str):
             f"Section {section} is a subsection. Subsections must be defined "
             "after a section."
         )
-    
+
     if len(config.items(section)) != 0:
         raise ValueError(
             f"Section {section} is not empty. Sections should only contain "
             "subsections."
         )
+
 
 def validate_subsection_config(subsection: str, subsection_config: dict[str, str]):
     required_keys = ["alias", "auth"]
@@ -50,12 +58,12 @@ def validate_subsection_config(subsection: str, subsection_config: dict[str, str
     for key in subsection_config:
         if key not in required_keys:
             additional_keys.append(key)
-    
+
     if missing_keys:
         raise ValueError(
             f"Missing required keys in subsection [{subsection}]: {missing_keys}"
         )
-    
+
     if additional_keys:
         raise ValueError(
             f"Additional keys in subsection [{subsection}]: {additional_keys}"
@@ -94,7 +102,7 @@ def parse_sections_from_config(config: configparser.ConfigParser):
 
 
 def get_sections() -> dict[str, dict[str, dict[str, str]]]:
-    with open("fal.ini") as fp:
+    with open(FAL_CONFIG_PATH) as fp:
         config = configparser.ConfigParser()
         config.read_file(fp)
 
@@ -103,7 +111,11 @@ def get_sections() -> dict[str, dict[str, dict[str, str]]]:
     return sections
 
 
-def serve_fal_function(file_path: str, function_name: str, alias: str, auth: str, dry_run: bool = True):
+# TODO: If its already deployed, we should downscale and lower the keep alive before
+# deploying again.
+def serve_fal_function(
+    file_path: str, function_name: str, alias: str, auth: str, dry_run: bool = True
+):
     command = [
         "fal",
         "fn",
@@ -121,6 +133,7 @@ def serve_fal_function(file_path: str, function_name: str, alias: str, auth: str
     else:
         subprocess.run(command, check=True)
 
+
 if __name__ == "__main__":
     sections = get_sections()
     for file_path, function_names in sections.items():
@@ -131,4 +144,3 @@ if __name__ == "__main__":
                 alias=function_config["alias"],
                 auth=function_config["auth"],
             )
-        
