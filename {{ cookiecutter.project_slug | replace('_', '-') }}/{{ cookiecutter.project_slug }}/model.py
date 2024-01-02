@@ -8,6 +8,7 @@ Contents:
 """
 import fal
 
+
 @fal.cached
 def get_pipeline():
     pass

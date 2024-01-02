@@ -1,5 +1,5 @@
-from .prompt import *
 from .base import Field
+from .prompt import *
 
 __snapshot = globals().copy()
 

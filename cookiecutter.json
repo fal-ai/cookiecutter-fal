@@ -15,6 +15,7 @@
         "local_extensions.select_one",
         "local_extensions.load_fields",
         "local_extensions.todict",
+        "local_extensions.create_example_test_case",
         "cookiecutter.extensions.JsonifyExtension"
     ]
 }

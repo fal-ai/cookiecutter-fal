@@ -1,6 +1,5 @@
 from dataclasses import dataclass
-
-from typing import Any, TypeVar, Generic
+from typing import Any, Generic, TypeVar
 
 T = TypeVar("T")
 
@@ -32,11 +31,12 @@ class FieldOptions:
             if getattr(self, extra) is not None:
                 field_dict[extra] = getattr(self, extra)
 
-        if (self.default is None and "Optional" in self.type) or self.default is not None:
+        if (
+            self.default is None and "Optional" in self.type
+        ) or self.default is not None:
             field_dict["default"] = self.get_default()
 
         return field_dict
-
 
 
 @dataclass

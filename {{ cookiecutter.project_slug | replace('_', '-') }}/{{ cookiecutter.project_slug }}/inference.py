@@ -59,6 +59,7 @@ class {{ modal_name }}Output(BaseModel):
 def {{ cookiecutter.generate_function_name }}(input: {{ modal_name }}Input) -> {{ modal_name }}Output:
 {%- if 'Image Size' in input_fields %}
     if input.image_size is not None:
+        image_size = get_image_size(input.image_size)
         width = input.image_size.width
         height = input.image_size.height
 {% endif %}

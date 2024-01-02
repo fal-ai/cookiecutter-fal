@@ -13,8 +13,8 @@ Contents:
 
 from pathlib import Path
 
-
 __CURR_DIR = Path(__file__).resolve().parent
+
 
 def get_requirements():
     with open(__CURR_DIR / "requirements.txt") as fp:

@@ -1,6 +1,6 @@
 import configparser
-from pathlib import Path
 import subprocess
+from pathlib import Path
 
 __FILE_DIR = Path(__file__).resolve().parent
 # We assume that the config file is in the same directory as this script.
@@ -78,7 +78,7 @@ def parse_subsection(config: configparser.ConfigParser, section: str):
 
 
 def parse_sections_from_config(config: configparser.ConfigParser):
-    parsed_sections = {}
+    parsed_sections = {}  # type: ignore
     current_section = None
 
     for section in config.sections():
