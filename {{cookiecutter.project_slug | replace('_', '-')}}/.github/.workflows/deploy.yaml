@@ -1,0 +1,30 @@
+name: Deploy {{ cookiecutter.project_name }} to fal
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: {{ '${{ github.head_ref || github.run_id }}-${{ github.workflow }}' }}
+      cancel-in-progress: true
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          pip install -e .
+          pip install -r requirements-dev.txt
+
+      - name: Deploy the model
+        env:
+          FAL_KEY_ID: {{ '${{ secrets.FAL_KEY_ID }}' }}
+          FAL_KEY_SECRET: {{ '${{ secrets.FAL_KEY_SECRET }}' }}
+        run: |
+          python serve.py
