@@ -21,6 +21,7 @@ repos:
     rev: v2.2.2
     hooks:
     -   id: codespell
+        args: ["--ignore-regex", ".*#.*codespell: ignore"]
 -   repo: https://github.com/hakancelikdev/unimport
     rev: 0.12.1
     hooks:
