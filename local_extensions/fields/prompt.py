@@ -123,7 +123,7 @@ Image = Field(
         description="The image to use for inference process.",
         type="Image",
         examples=[
-            "https://storage.googleapis.com/falserverless/illusion-examples/checkers.png'",
+            "https://storage.googleapis.com/falserverless/illusion-examples/checkers.png",
             "https://storage.googleapis.com/falserverless/illusion-examples/cubes.jpeg",
             "https://storage.googleapis.com/falserverless/illusion-examples/pattern.png",
         ],
@@ -132,7 +132,7 @@ Image = Field(
         description="The generated image.",
         type="Image",
         examples=[
-            "https://storage.googleapis.com/falserverless/illusion-examples/checkers.png'",
+            "https://storage.googleapis.com/falserverless/illusion-examples/checkers.png",
             "https://storage.googleapis.com/falserverless/illusion-examples/cubes.jpeg",
             "https://storage.googleapis.com/falserverless/illusion-examples/pattern.png",
         ],
