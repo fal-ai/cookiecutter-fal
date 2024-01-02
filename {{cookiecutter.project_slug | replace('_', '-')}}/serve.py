@@ -114,8 +114,9 @@ def get_sections() -> dict[str, dict[str, dict[str, str]]]:
 # TODO: If its already deployed, we should downscale and lower the keep alive before
 # deploying again.
 def serve_fal_function(
-    file_path: str, function_name: str, alias: str, auth: str, dry_run: bool = True
+    module_name: str, function_name: str, alias: str, auth: str, dry_run: bool = True
 ):
+    file_path = module_name.replace(".", "/") + ".py"
     command = [
         "fal",
         "fn",
@@ -128,18 +129,17 @@ def serve_fal_function(
         auth,
     ]
 
-    if dry_run:
-        print(" ".join(command))
-    else:
+    print("Deploying to fal with:", " ".join(command))
+    if not dry_run:
         subprocess.run(command, check=True)
 
 
 if __name__ == "__main__":
     sections = get_sections()
-    for file_path, function_names in sections.items():
+    for module_name, function_names in sections.items():
         for function_name, function_config in function_names.items():
             serve_fal_function(
-                file_path=file_path,
+                module_name=module_name,
                 function_name=function_name,
                 alias=function_config["alias"],
                 auth=function_config["auth"],
