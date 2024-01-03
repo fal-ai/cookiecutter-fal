@@ -51,33 +51,6 @@ def image_client() -> httpx.Client:
         yield client
 
 
-@pytest.mark.parametrize(
-    "name, input, output",
-    [
-        (
-            test["name"],
-            test["input"],
-            test["output"],
-        )
-        for test in get_test_cases()
-    ],
-)
-def test_text_to_image(name, input, output, rest_client, image_client):
-    loras = {{ input_modal_name }}(**input)
-    result = local_test_fn(loras)
-    for generated_image, expected_image in zip(result.images, output["images"]):
-        response = rest_client.get(f"/storage/link/{expected_image}")
-        response.raise_for_status()
-
-        expected_image_url = response.json()["url"]
-        similarity = compare_images(
-            image_client,
-            generated_image.url,
-            expected_image_url,
-        )
-        assert similarity >= SIMILARITY_THRESHOLD
-
-
 def compare_images(
     client: httpx.Client, baseline_image: str, target_image: str
 ) -> float:
@@ -95,3 +68,31 @@ def compare_images(
             metrics=[SIMILARITY_METHOD],
         )
         return results[SIMILARITY_METHOD]
+
+
+@pytest.mark.parametrize(
+    "name, input, output",
+    [
+        (
+            test["name"],
+            test["input"],
+            test["output"],
+        )
+        for test in get_test_cases()
+    ],
+)
+def test_{{ cookiecutter.project_slug }}(name, input, output, rest_client, image_client):
+    model_input = {{ input_modal_name }}(**input)
+    result = local_test_fn(model_input)
+
+    for generated_image, expected_image in zip(result.images, output["images"]):
+        response = rest_client.get(f"/storage/link/{expected_image}")
+        response.raise_for_status()
+
+        expected_image_url = response.json()["url"]
+        similarity = compare_images(
+            image_client,
+            generated_image.url,
+            expected_image_url,
+        )
+        assert similarity >= SIMILARITY_THRESHOLD
