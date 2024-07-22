@@ -124,3 +124,5 @@ rawdata/
 errors.log
 results.log
 sampling_data
+
+{{ cookiecutter.project_slug | replace('_', '-') }}/{{ cookiecutter.project_slug }}/_{{ cookiecutter.project_slug }}_version.py
