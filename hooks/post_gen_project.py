@@ -44,3 +44,7 @@ subprocess.check_call(
     ["git", "tag", "v0.0.1"],
     cwd="{{ cookiecutter.project_slug }}",
 )
+subprocess.check_call(
+    ["git", "branch", "-M", "main"],
+    cwd="{{ cookiecutter.project_slug }}",
+)
