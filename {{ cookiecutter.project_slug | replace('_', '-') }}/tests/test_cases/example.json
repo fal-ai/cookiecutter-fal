@@ -1,4 +1,0 @@
-{%- set input_fields = cookiecutter.__input_fields | todict -%}
-{%- set output_fields = cookiecutter.__output_fields | todict -%}
-
-{{ [input_fields, output_fields] | create_example_test_case }}

@@ -18,13 +18,10 @@ jobs:
           python-version: "3.10"
 
       - name: Install dependencies
-        run: |
-          pip install -e .
-          pip install -r requirements-dev.txt
+        run: make init
 
       - name: Deploy the model
         env:
           FAL_KEY_ID: {{ '${{ secrets.FAL_KEY_ID }}' }}
           FAL_KEY_SECRET: {{ '${{ secrets.FAL_KEY_SECRET }}' }}
-        run: |
-          python serve.py
+        run: make deploy

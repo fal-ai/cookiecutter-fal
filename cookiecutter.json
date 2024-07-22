@@ -2,20 +2,9 @@
     "project_name": "Stable Diffusion",
     "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
     "generate_function_name": "generate_image",
-    "_machine_type": [
-        "XS", "S", "M", "L", "XL", "GPU", "GPU-A10G", "GPU-T4", "GPU-L4"
-    ],
-    "__machine_type": "{{ ['Machine Type', cookiecutter._machine_type] | select_one }}",
+    "machine_type": ["XS", "S", "M", "L", "XL", "GPU-A100", "GPU-A6000"],
     "keep_alive": 60,
-    "__fields": "{{ ' ' | load_fields }}",
-    "__input_fields": "{{ ['Input Fields', cookiecutter.__fields] | select_multiple_field }}",
-    "__output_fields": "{{ ['Output Fields', cookiecutter.__fields] | select_multiple_field }}",
-    "_extensions": [
-        "local_extensions.select_multiple_field",
-        "local_extensions.select_one",
-        "local_extensions.load_fields",
-        "local_extensions.todict",
-        "local_extensions.create_example_test_case",
-        "cookiecutter.extensions.JsonifyExtension"
-    ]
+    "app_class_name": "{{ cookiecutter.project_name | title | replace(' ', '') }}",
+    "app_auth": ["private", "shared", "public"],
+    "python_version": ["3.11", "3.10"]
 }
