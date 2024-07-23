@@ -125,4 +125,6 @@ errors.log
 results.log
 sampling_data
 
+.ruff_cache
+
 src/{{ cookiecutter.project_slug }}/_{{ cookiecutter.project_slug }}_version.py
