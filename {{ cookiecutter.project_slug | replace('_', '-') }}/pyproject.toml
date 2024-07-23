@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 git_describe_command= 'git describe --tags --abbrev=0 --dirty --match "v*"'
 tag_regex = "v(?P<version>.*)$"
 fallback_version = "0.0.0"
-version_file = "{{ cookiecutter.project_slug }}/_{{ cookiecutter.project_slug }}_version.py"
+version_file = "src/{{ cookiecutter.project_slug }}/_{{ cookiecutter.project_slug }}_version.py"
 
 [project]
 name = "{{ cookiecutter.project_slug | replace('_', '-') }}"

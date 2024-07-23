@@ -1,7 +1,7 @@
 VENV_PIP := .venv/bin/pip
 VENV_PY := .venv/bin/python
 
-APP_LOC := {{ cookiecutter.project_slug }}/inference.py::{{ cookiecutter.app_class_name }}
+APP_LOC := src/{{ cookiecutter.project_slug }}/inference.py::{{ cookiecutter.app_class_name }}
 APP_NAME := {{ cookiecutter.project_slug.lower() | replace('_', '-') }}
 APP_AUTH := {{ cookiecutter.app_auth }}
 APP_KEEP_ALIVE := {{ cookiecutter.keep_alive }}
