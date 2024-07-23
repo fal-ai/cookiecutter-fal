@@ -9,7 +9,8 @@ APP_KEEP_ALIVE := {{ cookiecutter.keep_alive }}
 PYTHON_BIN_PATH := $(shell which python{{ cookiecutter.python_version }})
 
 init:
-	virtualenv .venv -p ${PYTHON_BIN_PATH}
+	${PYTHON_BIN_PATH} -m pip install virtualenv
+	${PYTHON_BIN_PATH} -m virtualenv .venv -p ${PYTHON_BIN_PATH}
 	${VENV_PIP} install -e .
 	${VENV_PIP} install -r requirements-dev.txt
 

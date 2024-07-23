@@ -29,22 +29,17 @@ subprocess.check_call(
 subprocess.check_call(["git", "init"])
 subprocess.check_call(
     [PYTHON_BINARY, "-m", "pre_commit", "install", "--install-hooks"],
-    cwd="{{ cookiecutter.project_slug }}",
 )
 subprocess.check_call(
     [PYTHON_BINARY, "-m", "pre_commit", "autoupdate"],
-    cwd="{{ cookiecutter.project_slug }}",
 )
 subprocess.check_call(["git", "add", "--all"])
 subprocess.check_call(
     ["git", "commit", "-m", "Add initial project."],
-    cwd="{{ cookiecutter.project_slug }}",
 )
 subprocess.check_call(
     ["git", "tag", "v0.0.1"],
-    cwd="{{ cookiecutter.project_slug }}",
 )
 subprocess.check_call(
     ["git", "branch", "-M", "main"],
-    cwd="{{ cookiecutter.project_slug }}",
 )

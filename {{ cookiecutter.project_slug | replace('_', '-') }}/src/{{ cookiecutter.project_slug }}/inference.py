@@ -11,7 +11,7 @@ import fal
 class {{ cookiecutter.app_class_name }}(
     fal.App,
     keep_alive={{ cookiecutter.keep_alive }},
-):
+):  # type: ignore
     requirements=get_requirements()
     machine_type="{{ cookiecutter.machine_type }}"
 
