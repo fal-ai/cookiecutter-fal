@@ -14,6 +14,8 @@ class {{ cookiecutter.app_class_name }}(
 ):  # type: ignore
     requirements=get_requirements()
     machine_type="{{ cookiecutter.machine_type }}"
+    app_name="{{ cookiecutter.app_name }}"
+    app_auth="{{ cookiecutter.app_auth }}"
 
     def setup(self):
         setup_environment()
