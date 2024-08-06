@@ -2,8 +2,7 @@ VENV_PIP := .venv/bin/pip
 VENV_PY := .venv/bin/python
 
 APP_LOC := src/{{ cookiecutter.project_slug }}/inference.py::{{ cookiecutter.app_class_name }}
-APP_NAME := {{ cookiecutter.project_slug.lower() | replace('_', '-') }}
-APP_AUTH := {{ cookiecutter.app_auth }}
+APP_NAME := {{ cookiecutter.app_name }}
 APP_KEEP_ALIVE := {{ cookiecutter.keep_alive }}
 
 PYTHON_BIN_PATH := $(shell which python{{ cookiecutter.python_version }})
@@ -19,7 +18,7 @@ run:
 
 deploy:
 	${VENV_PY} -m fal apps scale ${APP_NAME} --keep-alive=${APP_KEEP_ALIVE}
-	${VENV_PY} -m fal deploy ${APP_LOC} --app-name ${APP_NAME} --auth ${APP_AUTH}
+	${VENV_PY} -m fal deploy ${APP_LOC}
 
 test:
 	${VENV_PY} -m pytest -vvv tests/ -sss

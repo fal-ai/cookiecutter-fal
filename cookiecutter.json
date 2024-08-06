@@ -5,6 +5,7 @@
     "machine_type": ["XS", "S", "M", "L", "XL", "GPU-A100", "GPU-A6000"],
     "keep_alive": 60,
     "app_class_name": "{{ cookiecutter.project_name | title | replace(' ', '') }}",
+    "app_name": "{{ cookiecutter.project_slug.lower() | replace('_', '-') }}",
     "app_auth": ["private", "shared", "public"],
     "python_version": ["3.11", "3.10"]
 }
