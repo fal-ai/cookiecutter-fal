@@ -8,7 +8,8 @@ APP_KEEP_ALIVE := {{ cookiecutter.keep_alive }}
 PYTHON_BIN_PATH := $(shell which python{{ cookiecutter.python_version }})
 
 init:
-	${PYTHON_BIN_PATH} -m pip install virtualenv
+	${VENV_PIP} install --upgrade pip
+	${VENV_PIP} install--upgrade virtualenv setuptools
 	${PYTHON_BIN_PATH} -m virtualenv .venv -p ${PYTHON_BIN_PATH}
 	${VENV_PIP} install -e '.[dev]'
 	${VENV_PY} -m pre_commit install
