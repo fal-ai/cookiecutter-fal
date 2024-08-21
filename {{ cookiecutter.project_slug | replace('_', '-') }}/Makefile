@@ -10,7 +10,7 @@ PYTHON_BIN_PATH := $(shell which python{{ cookiecutter.python_version }})
 init:
 	${PYTHON_BIN_PATH} -m virtualenv .venv -p ${PYTHON_BIN_PATH}
 	${VENV_PIP} install --upgrade pip
-	${VENV_PIP} install--upgrade virtualenv setuptools
+	${VENV_PIP} install --upgrade virtualenv setuptools
 	${VENV_PIP} install -e '.[dev]'
 	${VENV_PY} -m pre_commit install
 
