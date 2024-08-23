@@ -1,7 +1,9 @@
 name: Deploy {{ cookiecutter.project_name }} to fal
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   run:
@@ -15,7 +17,7 @@ jobs:
 
       - uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: "{{ cookiecutter.python_version }}"
 
       - name: Install dependencies
         run: make init
