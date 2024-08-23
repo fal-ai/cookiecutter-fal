@@ -24,6 +24,5 @@ jobs:
 
       - name: Deploy the model
         env:
-          FAL_KEY_ID: {{ '${{ secrets.FAL_KEY_ID }}' }}
-          FAL_KEY_SECRET: {{ '${{ secrets.FAL_KEY_SECRET }}' }}
+          FAL_KEY: "${{ secrets.FAL_KEY }}"
         run: make deploy
