@@ -37,3 +37,6 @@ select = ["E", "F", "W", "PLC", "PLE", "PLW", "I", "UP"]
 
 [tool.ruff.lint.pyupgrade]
 keep-runtime-typing = true
+
+[tool.fal.apps]
+{{ cookiecutter.app_name }} = { auth = "{{ cookiecutter.app_auth }}", ref = "src/{{ cookiecutter.project_slug }}/inference.py::{{ cookiecutter.app_class_name }}" }
