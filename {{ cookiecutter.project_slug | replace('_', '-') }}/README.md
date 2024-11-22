@@ -1,5 +1,11 @@
 # {{ cookiecutter.project_name }}
 
+## Environment variables
+Create a `.env` file in the repository root directory and add environment variables as needed. They will be picked automatically in the Makefile.
+```
+FAL_KEY=
+```
+
 ## Installing Dependencies and Initializing the Project
 To install the required dependencies and initialize the project, run the following command in your terminal:
 

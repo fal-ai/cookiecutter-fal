@@ -7,6 +7,9 @@ APP_KEEP_ALIVE := {{ cookiecutter.keep_alive }}
 
 PYTHON_BIN_PATH := $(shell which python{{ cookiecutter.python_version }})
 
+-include .env
+export
+
 check-python-{{ cookiecutter.python_version }}:
 	@if [ -z "$(PYTHON_{{ cookiecutter.python_version }}_BIN_PATH)" ]; then \
 		echo "Error: Python {{ cookiecutter.python_version }} is not installed or not in PATH."; \
