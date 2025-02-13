@@ -18,9 +18,9 @@ check-python-{{ cookiecutter.python_version }}:
 	fi
 
 init: check-python-{{ cookiecutter.python_version }}
-	${PYTHON_BIN_PATH} -m venv .venv -p ${PYTHON_BIN_PATH}
+	${PYTHON_BIN_PATH} -m venv .venv
 	${VENV_PIP} install --upgrade pip
-	${VENV_PIP} install --upgrade venv setuptools
+	${VENV_PIP} install --upgrade setuptools
 	${VENV_PIP} install -e '.[dev]'
 	${VENV_PY} -m pre_commit install
 
